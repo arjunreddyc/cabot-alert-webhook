@@ -13,12 +13,12 @@ class WebhookAlert(AlertPlugin):
     author = "Rockerbox"
 
     def send_alert(self, service, users, duty_officers):
-        payload = {
+        alert_msg = {
             'service': service.name,
             'status': service.overall_status,
             'old_status': service.old_overall_status,
         }
-
+        payload = {'text':json.dumps(alert_msg)}
         webhook_urls = [u.webhook_url for u in WebhookAlertUserData.objects.filter(user__user__in=users)]
 
         for url in webhook_urls:
